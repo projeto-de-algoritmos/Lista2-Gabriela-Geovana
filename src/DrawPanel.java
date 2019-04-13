@@ -17,10 +17,11 @@ public class DrawPanel extends JPanel {
 	private ArrayList<Point> nodes;
 	private boolean isArrow = false;
 	private ArrayList<ArrayList<Point>> adjList; 
+	private ArrayList<ArrayList<Integer>> adjListInt; 
+	private MainFrame mainFrame;
 	
-	public DrawPanel() {
-		
-		
+	public DrawPanel(MainFrame mainFrame) {	
+		this.mainFrame = mainFrame;
 		setBackground(Color.GRAY);
 		
         nodes = new ArrayList<Point>();
@@ -39,8 +40,6 @@ public class DrawPanel extends JPanel {
             		if(nodes.size() > numNodes) MainFrame.callbackMouseListener();
      	
             	}
-            	
-                
             }
         });
     }
@@ -49,6 +48,7 @@ public class DrawPanel extends JPanel {
     @Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
+	    
 	    
 	    Graphics2D g2 = (Graphics2D) g;
 	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -61,6 +61,7 @@ public class DrawPanel extends JPanel {
 	    } 
 	    
 	    if (isArrow) {
+	    	System.out.println("Entrou");
 	    	this.setArrowDirections();
 	    	g2.setColor(Color.BLACK);
 	    	
@@ -73,50 +74,43 @@ public class DrawPanel extends JPanel {
 	      	    	
 	      	    	g2.drawLine(from.x + 10, from.y + 15, to.x + 10, to.y + 15);//linha
 	      	    	g2.fillOval(to.x , to.y + 5 , 10, 10);//ponta da linha
-	            } 
-	           
-	        } 
-	    	
-	    } 
-        
+	            }	          
+	        } 	    	
+	    }
     }
     
 	
-	private void setArrowDirections() {
-		
+	private void setArrowDirections() {		
 		adjList = new ArrayList<ArrayList<Point>>();
+		adjListInt = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Point> nodeNeighbors;
+		ArrayList<Integer> nodeNeighborsInt;
 		Random rand = new Random();
 		int nodesTo; 
 		int to;
-		int j;
-		
+		int j;		
 		
 		for (int from = 0; from<nodes.size(); from++) {
-
-			nodesTo = rand.nextInt(numNodes/3) + 1; //para quantos nÃ³s nodes[i] aponta	
+			nodesTo = rand.nextInt(numNodes/3) + 1; //para quantos nós nodes[i] aponta	
 			nodeNeighbors = new ArrayList<>();
+			nodeNeighborsInt = new ArrayList<Integer>();
+			System.out.println("nó " + from);
 			
 			j = 0;
-			while(j < nodesTo) { //definir quais nÃ³s nodes[i] aponta
-				
+			while(j < nodesTo) { //definir quais nós nodes[i] aponta				
 				to = rand.nextInt(numNodes);
-				System.out.println("De" + from + "para" + to);
+				//System.out.println("De" + from + "para" + to);
 				
-				if(nodeNeighbors.contains(nodes.get(to))) j--;
-				else if (from == to) j--;
-				else nodeNeighbors.add(nodes.get(to));
-				
-				j++;
+				if(!nodeNeighbors.contains(nodes.get(to)) && from != to) {
+					nodeNeighbors.add(nodes.get(to));
+					nodeNeighborsInt.add(to);
+					System.out.println("De " + from + " para " + to);
+					j++;
+				}
 			}
-			
 			adjList.add(nodeNeighbors);
-			
-		} 
-		
-				
+			adjListInt.add(nodeNeighborsInt);
+		}		
+		mainFrame.updateAdjList(adjListInt);
 	}
-	
-	
-    
 }

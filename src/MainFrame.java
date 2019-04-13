@@ -4,18 +4,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
 	private static JLabel lblNode;
+	private JPanel adjListPanel = new JPanel();
+	
 	
 	public MainFrame() {
 			
@@ -31,7 +33,7 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 			
 		//Instruction section
-		lblNode = new JLabel("Clique para criar um nÃ³ (de 0 atÃ© 6)");
+		lblNode = new JLabel("Clique para criar um nó (de 0 até 6)");
 		lblNode.setAlignmentX(Component.CENTER_ALIGNMENT);
 		contentPane.add(lblNode);
 
@@ -39,7 +41,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(Box.createRigidArea(new Dimension(10,10)));
 		
 		// Section to draw points
-		DrawPanel drawPanel = new DrawPanel();
+		DrawPanel drawPanel = new DrawPanel(this);
 		drawPanel.setBounds(10, 10, 45, 30);
 		contentPane.add(drawPanel);
 		
@@ -47,48 +49,44 @@ public class MainFrame extends JFrame {
 		topOrdPanel.setLayout(new GridLayout(1, 2));
 		contentPane.add(topOrdPanel);
 		
-		JPanel adjListPanel = new JPanel();
 		adjListPanel.setBackground(Color.MAGENTA);
 		adjListPanel.setLayout(new GridLayout(8, 2));
 		topOrdPanel.add(adjListPanel);
 		
 		adjListPanel.add(Box.createRigidArea(new Dimension(10,10)));
-		JLabel lblTitleAdj = new JLabel("Lista de AdjacÃªncias");
+		JLabel lblTitleAdj = new JLabel("Lista de Adjacências");
 		adjListPanel.add(lblTitleAdj);
 		adjListPanel.add(Box.createRigidArea(new Dimension(10,10)));
 		adjListPanel.add(Box.createRigidArea(new Dimension(10,10)));
 		
-		//TODO PEGAR LISTA DE ADJACENCIAS EM DRAWPANEL E MOSTRAR
-		for (int node = 0; node < 7; node++) { 
-			JLabel lblNode = new JLabel(node + " -> ");
-			adjListPanel.add(lblNode);
-            
-    		for (int neighbor = 0; neighbor < 3; neighbor++) { 
-      	    	JLabel lblNeighbor = new JLabel(neighbor + " ");
-      	    	adjListPanel.add(lblNeighbor);
-            } 
-           
-        } 
 		
-		//TODO FAZER A ORDENAÃ‡ÃƒO TOPOLÃ“GICA
-		//TODO FAZER PANEL QUE MOSTRE OS NÃ“S EM ORDEM TOPOLÃ“GICA
-		//TODO SE FOR UM CICLO MOSTRAR MENSAGEM DIZENDO QUE Ã‰ UM CICLO
+		//TODO FAZER A ORDENAÇÃO TOPOLÓGICA
+		//TODO FAZER PANEL QUE MOSTRE OS NÓS EM ORDEM TOPOLÓGICA
+		//TODO SE FOR UM CICLO MOSTRAR MENSAGEM DIZENDO QUE É UM CICLO
 		JPanel nodeOrdPanel = new JPanel();
 		nodeOrdPanel.setBackground(Color.BLUE);
 		nodeOrdPanel.setLayout(new BoxLayout(nodeOrdPanel, BoxLayout.Y_AXIS));
-		topOrdPanel.add(nodeOrdPanel);
-		
-
-		
+		topOrdPanel.add(nodeOrdPanel);	
 	}
 	
-	public static void callbackMouseListener() {
-		
-		lblNode.setText("Clique novamente para gerar setas aleatÃ³rias");
-				
+	public static void callbackMouseListener() {		
+		lblNode.setText("Clique novamente para gerar setas aleatórias");				
 	}
 	
-
-
+	public void updateAdjList(ArrayList<ArrayList<Integer>> adjList){
+		adjListPanel.removeAll();
+		String listString = "";
+		JLabel lblNeighbor;
+		for (int node = 0; node < adjList.size(); node++) { 
+			listString += "\n" + node + " -> ";            
+    		for (int neighbor = 0; neighbor < adjList.get(node).size(); neighbor++) {   			
+      	    	listString += adjList.get(node).get(neighbor).toString() + " ";
+            }
+        }
+		lblNeighbor = new JLabel(listString);
+	    adjListPanel.add(lblNeighbor);
+		adjListPanel.revalidate();
+		adjListPanel.repaint();			
+    }
 }
 
