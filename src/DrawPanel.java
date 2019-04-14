@@ -93,7 +93,6 @@ public class DrawPanel extends JPanel {
 			nodesTo = rand.nextInt(numNodes/3); //para quantos nós nodes[i] aponta	
 			nodeNeighbors = new ArrayList<>();
 			nodeNeighborsInt = new ArrayList<Integer>();
-			System.out.println("nó " + from);
 			
 			j = 0;
 			while(j < nodesTo) { //definir quais nós nodes[i] aponta				
