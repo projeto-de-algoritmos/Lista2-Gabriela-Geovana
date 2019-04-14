@@ -1,7 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
@@ -50,7 +53,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(topOrdPanel);
 		
 		adjListPanel.setBackground(Color.MAGENTA);
-		adjListPanel.setLayout(new GridLayout(8, 2));
+		adjListPanel.setLayout(new GridLayout(1, 1));
 		topOrdPanel.add(adjListPanel);
 		
 		adjListPanel.add(Box.createRigidArea(new Dimension(10,10)));
@@ -75,16 +78,23 @@ public class MainFrame extends JFrame {
 	
 	public void updateAdjList(ArrayList<ArrayList<Integer>> adjList){
 		adjListPanel.removeAll();
-		String listString = "";
-		JLabel lblNeighbor;
-		for (int node = 0; node < adjList.size(); node++) { 
-			listString += "\n" + node + " -> ";            
+		
+		//String listString = "";
+		//JLabel lblNeighbor;
+		JTable tableItem = new JTable(adjList.size(), 4);
+		tableItem.setBackground(Color.MAGENTA);
+		tableItem.setSize(new Dimension(10,4));
+		for (int node = 0; node < adjList.size(); node++) {
+			tableItem.setValueAt(node, node, 0);
+			//listString += "\n" + node + " -> ";			 
     		for (int neighbor = 0; neighbor < adjList.get(node).size(); neighbor++) {   			
-      	    	listString += adjList.get(node).get(neighbor).toString() + " ";
-            }
+      	    	//listString += adjList.get(node).get(neighbor).toString() + " ";
+    			tableItem.setValueAt("->  " + adjList.get(node).get(neighbor), node, neighbor+1);
+    		}
         }
-		lblNeighbor = new JLabel(listString);
-	    adjListPanel.add(lblNeighbor);
+		//lblNeighbor = new JLabel(listString);
+	    //adjListPanel.add(lblNeighbor);
+		adjListPanel.add(tableItem);
 		adjListPanel.revalidate();
 		adjListPanel.repaint();			
     }
