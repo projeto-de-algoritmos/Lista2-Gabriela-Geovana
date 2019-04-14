@@ -12,14 +12,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
 	private static JLabel lblNode;
 	private JPanel adjListPanel = new JPanel();
+	private JPanel nodeOrdPanel;
 	
 	
 	public MainFrame() {
@@ -66,7 +70,7 @@ public class MainFrame extends JFrame {
 		//TODO FAZER A ORDENAÇÃO TOPOLÓGICA
 		//TODO FAZER PANEL QUE MOSTRE OS NÓS EM ORDEM TOPOLÓGICA
 		//TODO SE FOR UM CICLO MOSTRAR MENSAGEM DIZENDO QUE É UM CICLO
-		JPanel nodeOrdPanel = new JPanel();
+		nodeOrdPanel = new JPanel();
 		nodeOrdPanel.setBackground(Color.BLUE);
 		nodeOrdPanel.setLayout(new BoxLayout(nodeOrdPanel, BoxLayout.Y_AXIS));
 		topOrdPanel.add(nodeOrdPanel);	
@@ -74,6 +78,27 @@ public class MainFrame extends JFrame {
 	
 	public static void callbackMouseListener() {		
 		lblNode.setText("Clique novamente para gerar setas aleatórias");				
+	}
+	
+	private boolean isCyclic(ArrayList<ArrayList<Integer>> adjList){
+		//Referência: https://www.ime.usp.br/~pf/analise_de_algoritmos/aulas/cycles-and-dags.html
+		LinkedList<Integer> visited = new LinkedList<Integer>(); //cinza
+		LinkedList<Integer> queue = new LinkedList<Integer>(); //branco
+		
+		queue.add(0);
+		
+		while(!queue.isEmpty()) {
+			Integer currentNode = (Integer) queue.pop();
+			visited.add(currentNode);
+			
+			for(int neighbor=0; neighbor < adjList.get(currentNode).size(); neighbor++) {
+				if(visited.contains(adjList.get(currentNode).get(neighbor))) {
+					return true;
+				}
+				queue.add(adjList.get(currentNode).get(neighbor));
+			}
+		}
+		return false;
 	}
 	
 	public void updateAdjList(ArrayList<ArrayList<Integer>> adjList){
@@ -98,5 +123,41 @@ public class MainFrame extends JFrame {
 		adjListPanel.revalidate();
 		adjListPanel.repaint();			
     }
+	
+	public void updateNodeOrderPanel(ArrayList<ArrayList<Integer>> adjList) {
+		nodeOrdPanel.removeAll();
+		JLabel ciclicGraphLbl;
+		
+		if (isCyclic(adjList)) {
+			ciclicGraphLbl = new JLabel("Não é possível fazer a ordenação, pois o grafo resultante é cíclico");
+		} 
+		else {
+			ciclicGraphLbl = new JLabel("É possível ordenar");
+		}
+		
+		nodeOrdPanel.add(ciclicGraphLbl);
+		nodeOrdPanel.revalidate();
+		nodeOrdPanel.repaint();	
+	}
+	
+	/*
+	private boolean isAcyclic(ArrayList<ArrayList<Integer>> adjList){
+		HashMap nodeColor = new HashMap<>();
+		for (int node = 0; node < adjList.size(); node++) {
+			nodeColor.put(node, "branco");
+		}
+		int node = 0;
+		nodeColor.put(0, "cinza");
+		for(int neighbor = 0; neighbor < adjList.get(node).size(); neighbor++) {			
+			if(nodeColor.get(neighbor) == "cinza") {
+				return false;
+			}
+			else {
+				nodeColor.put(neighbor, "cinza");
+			}
+		}		
+	}*/
+	
+	
 }
 

@@ -61,7 +61,6 @@ public class DrawPanel extends JPanel {
 	    } 
 	    
 	    if (isArrow) {
-	    	System.out.println("Entrou");
 	    	this.setArrowDirections();
 	    	g2.setColor(Color.BLACK);
 	    	
@@ -91,7 +90,7 @@ public class DrawPanel extends JPanel {
 		int j;		
 		
 		for (int from = 0; from<nodes.size(); from++) {
-			nodesTo = rand.nextInt(numNodes/3) + 1; //para quantos nós nodes[i] aponta	
+			nodesTo = rand.nextInt(numNodes/3); //para quantos nós nodes[i] aponta	
 			nodeNeighbors = new ArrayList<>();
 			nodeNeighborsInt = new ArrayList<Integer>();
 			System.out.println("nó " + from);
@@ -112,5 +111,6 @@ public class DrawPanel extends JPanel {
 			adjListInt.add(nodeNeighborsInt);
 		}		
 		mainFrame.updateAdjList(adjListInt);
+		mainFrame.updateNodeOrderPanel(adjListInt);
 	}
 }
