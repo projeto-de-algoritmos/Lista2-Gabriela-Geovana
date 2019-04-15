@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
@@ -93,22 +92,4 @@ public class MainFrame extends JFrame {
 		adjListPanel.revalidate();
 		adjListPanel.repaint();
 	}
-	
-	public void updateNodeOrderPanel(ArrayList<ArrayList<Integer>> adjList) {
-		nodeOrdPanel.removeAll();
-		JLabel ciclicGraphLbl;
-
-		if (!control.isAcyclic(adjList)) {
-			ciclicGraphLbl = new JLabel("N�o � poss�vel fazer a ordena��o, pois o grafo resultante � c�clico");
-		} else {
-			ciclicGraphLbl = new JLabel("� poss�vel ordenar");
-		}
-
-		nodeOrdPanel.add(ciclicGraphLbl);
-		nodeOrdPanel.revalidate();
-		nodeOrdPanel.repaint();
-	}
-	
-
-
 }

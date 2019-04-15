@@ -64,7 +64,6 @@ public class NodesPanel extends JPanel {
 	    	control.setArrowDirections();
 	    	ArrayList<ArrayList<Point>> adjList = control.getAdjList();
 	    	mainFrame.setAdjReady();
-	    	mainFrame.updateNodeOrderPanel(control.getAdjListInt());
 	    	control.topologicalSort();
 	    	
 	    	g2.setColor(Color.BLACK);
