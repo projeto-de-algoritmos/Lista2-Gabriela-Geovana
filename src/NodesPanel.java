@@ -64,7 +64,7 @@ public class NodesPanel extends JPanel {
 	    	control.setArrowDirections();
 	    	ArrayList<ArrayList<Point>> adjList = control.getAdjList();
 	    	mainFrame.setAdjReady();
-	    	control.topologicalSort();
+	    	mainFrame.setTextCycle(control.topologicalSort());
 	    	
 	    	g2.setColor(Color.BLACK);
 	    	

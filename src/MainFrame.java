@@ -57,14 +57,14 @@ public class MainFrame extends JFrame {
 		// Panel of adjacency list
 		adjListPanel = new JPanel();
 		adjListPanel.setMaximumSize(new Dimension(2000, 10000));
-		isCycle = new JLabel("");
-		adjListPanel.add(isCycle);
 		topOrdPanel.add(adjListPanel);
 
 
 		// Topological order
 		nodeOrdPanel = new JPanel();
+		isCycle = new JLabel("");
 		nodeOrdPanel.setLayout(new BoxLayout(nodeOrdPanel, BoxLayout.Y_AXIS));
+		nodeOrdPanel.add(isCycle);
 		topOrdPanel.add(nodeOrdPanel);
 	}
 
@@ -72,16 +72,15 @@ public class MainFrame extends JFrame {
 		lblNode.setText("Clique novamente para gerar setas aleat�rias");
 	}
 	
-	public void setTextCycle() {
-		isCycle.setText("Tem ciclo: ");
+	public void setTextCycle(String text) {
+		System.out.println(text);
+		isCycle.setText(text);
 	}
 	
 	public void setAdjReady(){
 		adjListPanel.removeAll();
-		isCycle.setText("");
 		tableItem = new JTable(control.getAdjListInt().size(), 4);
-		tableItem.setBackground(Color.MAGENTA);
-		tableItem.setSize(new Dimension(10, 4));
+		tableItem.setSize(new Dimension(20, 50));
 		for (int node = 0; node < control.getAdjListInt().size(); node++) {
 			tableItem.setValueAt(node + " ->", node, 0);
 			for (int neighbor = 0; neighbor < control.getAdjListInt().get(node).size(); neighbor++) {

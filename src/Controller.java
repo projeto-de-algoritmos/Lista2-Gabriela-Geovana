@@ -71,7 +71,7 @@ public class Controller {
 		 
     // The function to do Topological Sort. It uses 
     // recursive topologicalSortUtil() 
-    public void topologicalSort() {
+    public String topologicalSort() {
     	int[] incomingEdgeCount = new int[adjListInt.size()];
 		for(int v = 0; v<adjListInt.size(); v++){
 			for(int w : adjListInt.get(v)){
@@ -87,8 +87,8 @@ public class Controller {
 		}
 		
 		if(nodesWithNoIncomingEdges.isEmpty()){		//Not a DAG, terminate early
-			System.out.println("Failed to find node with no incoming edges. \nMust contain a cycle and therefore no Topological Ordering exists.");
-			return;
+			return "Failed to find node with no incoming edges."
+					+ " \nMust contain a cycle and therefore no Topological Ordering exists.";
 		}
 		
 		
@@ -105,9 +105,10 @@ public class Controller {
 		}
 		
 		if(topolpgicalOrdering.size() == adjListInt.size()){
-			System.out.println("Topological Ordering: "+topolpgicalOrdering);
+			return "Topological Ordering: "+ topolpgicalOrdering;
 		}else{
-			System.out.println("Failed to reach all nodes. Must contain a cycle and therefore no Topological Ordering exists.");
+			return "Failed to reach all nodes. Must contain a cycle and"
+					+ " therefore no Topological Ordering exists.";
 		}
     } 
 }
