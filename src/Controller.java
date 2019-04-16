@@ -47,15 +47,17 @@ public class Controller {
 		int j;		
 		
 		for (int from = 0; from<nodes.size(); from++) {
-			nodesTo = rand.nextInt(numNodes/3); //para quantos n�s nodes[i] aponta	
+			nodesTo = rand.nextInt(numNodes/3); //how many nodes one points to
 			nodeNeighbors = new ArrayList<>();
 			nodeNeighborsInt = new ArrayList<Integer>();
 			
 			j = 0;
-			while(j < nodesTo) { //definir quais n�s nodes[i] aponta				
+			while(j < nodesTo) { //what nodes one points to			
 				to = rand.nextInt(numNodes);
 				
 				if(!nodeNeighbors.contains(nodes.get(to)) && from != to) {
+					// if edge does not exists...
+					// and does not point to itself ...
 					nodeNeighbors.add(nodes.get(to));
 					nodeNeighborsInt.add(to);
 					System.out.println("De" + from + "Para" + to);
@@ -69,8 +71,6 @@ public class Controller {
 		
 	}
 		 
-    // The function to do Topological Sort. It uses 
-    // recursive topologicalSortUtil() 
     public String topologicalSort() {
     	int[] incomingEdgeCount = new int[adjListInt.size()];
 		for(int v = 0; v<adjListInt.size(); v++){
@@ -84,11 +84,6 @@ public class Controller {
 			if(incomingEdgeCount[v]==0){
 				nodesWithNoIncomingEdges.add(v);
 			}
-		}
-		
-		if(nodesWithNoIncomingEdges.isEmpty()){		//Not a DAG, terminate early
-			return "Failed to find node with no incoming edges."
-					+ " \nMust contain a cycle and therefore no Topological Ordering exists.";
 		}
 		
 		
@@ -105,10 +100,10 @@ public class Controller {
 		}
 		
 		if(topolpgicalOrdering.size() == adjListInt.size()){
-			return "Topological Ordering: "+ topolpgicalOrdering;
+			return "Ordenação Topológica: "+ topolpgicalOrdering;
 		}else{
-			return "Failed to reach all nodes. Must contain a cycle and"
-					+ " therefore no Topological Ordering exists.";
+			return "Falha ao fazer a ordenação topológica."
+					+ " Deve existir um ciclo.";
 		}
     } 
 }
