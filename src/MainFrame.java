@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -19,10 +18,10 @@ public class MainFrame extends JFrame {
 	private NodesPanel nodesPanel;
 	private JPanel topOrdPanel;
 	private JPanel adjListPanel;
-	private JPanel nodeOrdPanel;
+	private OrderPanel nodeOrdPanel;
 	private JTable tableItem;
 	private JLabel isCycle;
-
+	
 	public MainFrame() {
 
 		setTitle("Graphs");
@@ -59,23 +58,12 @@ public class MainFrame extends JFrame {
 		adjListPanel.setMaximumSize(new Dimension(2000, 10000));
 		topOrdPanel.add(adjListPanel);
 
-
-		// Topological order
-		nodeOrdPanel = new JPanel();
-		isCycle = new JLabel("");
-		nodeOrdPanel.setLayout(new BoxLayout(nodeOrdPanel, BoxLayout.Y_AXIS));
-		nodeOrdPanel.add(isCycle);
-		topOrdPanel.add(nodeOrdPanel);
 	}
 
 	public void setTextArrows() {
 		lblNode.setText("Clique novamente para gerar setas aleat�rias");
 	}
 	
-	public void setTextCycle(String text) {
-		System.out.println(text);
-		isCycle.setText(text);
-	}
 	
 	public void setAdjReady(){
 		adjListPanel.removeAll();
@@ -90,5 +78,27 @@ public class MainFrame extends JFrame {
 		adjListPanel.add(tableItem);
 		adjListPanel.revalidate();
 		adjListPanel.repaint();
+	}
+	
+	public void setOrdReady(boolean isValid) {
+		
+		
+		if (nodeOrdPanel == null){
+			// Topological order
+			nodeOrdPanel = new OrderPanel(control);
+			nodeOrdPanel.setLayout(new BoxLayout(nodeOrdPanel, BoxLayout.Y_AXIS));
+			topOrdPanel.add(nodeOrdPanel);
+		} else if (isValid){
+			nodeOrdPanel.removeAll();
+			nodeOrdPanel.setValid(isValid);
+			nodeOrdPanel.repaint();
+		} else {
+			nodeOrdPanel.removeAll();
+			nodeOrdPanel.setValid(isValid);
+			isCycle = new JLabel("Houve erro ao ordernar. Deve haver um ciclo");
+			nodeOrdPanel.add(isCycle);
+			nodeOrdPanel.repaint();
+		}
+	
 	}
 }

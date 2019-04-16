@@ -2,11 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -68,7 +66,7 @@ public class NodesPanel extends JPanel {
 	    	control.setArrowDirections();
 	    	ArrayList<ArrayList<Point>> adjList = control.getAdjList();
 	    	mainFrame.setAdjReady();
-	    	mainFrame.setTextCycle(control.topologicalSort());
+	    	control.topologicalSort();
 	    	
 	    	g2.setColor(Color.BLACK);
 	    	

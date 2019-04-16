@@ -10,7 +10,12 @@ public class Controller {
 	private ArrayList<Point> nodes;
 	private ArrayList<ArrayList<Point>> adjList; 
 	private ArrayList<ArrayList<Integer>> adjListInt; 
+	private ArrayList<Integer> topolpgicalOrdering;
 	
+	public ArrayList<Integer> getTopolpgicalOrdering() {
+		return topolpgicalOrdering;
+	}
+
 	public Controller(MainFrame mainFrame) {
 		nodes = new ArrayList<Point>();
 		this.mainFrame = mainFrame;
@@ -71,7 +76,7 @@ public class Controller {
 		
 	}
 		 
-    public String topologicalSort() {
+    public void topologicalSort() {
     	int[] incomingEdgeCount = new int[adjListInt.size()];
 		for(int v = 0; v<adjListInt.size(); v++){
 			for(int w : adjListInt.get(v)){
@@ -87,7 +92,7 @@ public class Controller {
 		}
 		
 		
-		ArrayList<Integer> topolpgicalOrdering = new ArrayList<Integer>();
+		topolpgicalOrdering = new ArrayList<Integer>();
 		while(!nodesWithNoIncomingEdges.isEmpty()){
 			int v = nodesWithNoIncomingEdges.remove();
 			topolpgicalOrdering.add(v);
@@ -100,10 +105,9 @@ public class Controller {
 		}
 		
 		if(topolpgicalOrdering.size() == adjListInt.size()){
-			return "Ordenação Topológica: "+ topolpgicalOrdering;
+			mainFrame.setOrdReady(true);
 		}else{
-			return "Falha ao fazer a ordenação topológica."
-					+ " Deve existir um ciclo.";
+			mainFrame.setOrdReady(false);
 		}
     } 
 }
